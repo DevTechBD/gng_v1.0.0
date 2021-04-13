@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.gngappv1">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="gngappv1"
         android:icon="@mipmap/ic_launcher">
@@ -38,4 +39,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+
 </manifest>
+

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:gngappv1/screens/product_details_screens.dart';
-import 'package:gngappv1/state/product_state.dart';
-import 'package:provider/provider.dart';
+
 
 class SingleProduct extends StatelessWidget {
   final int id;
@@ -37,7 +36,7 @@ class SingleProduct extends StatelessWidget {
             borderRadius: BorderRadius.circular(6.0),
             boxShadow: [
               BoxShadow(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withOpacity(0.1),
                 spreadRadius: 10,
                 blurRadius: 5.0,
               ),

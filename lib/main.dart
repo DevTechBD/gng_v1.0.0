@@ -8,6 +8,8 @@ import 'package:gngappv1/screens/order_screens.dart';
 import 'package:gngappv1/screens/product_details_screens.dart';
 import 'package:gngappv1/screens/register_screens.dart';
 import 'package:gngappv1/state/cart_state.dart';
+import 'package:gngappv1/state/category_state.dart';
+
 
 import 'package:gngappv1/state/product_state.dart';
 import 'package:gngappv1/state/user_state.dart';
@@ -24,6 +26,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => ProductState()),
+        ChangeNotifierProvider(create: (ctx) => CategoryState()),
         ChangeNotifierProvider(create: (ctx) => UserState()),
         ChangeNotifierProvider(create: (ctx) => CartState()),
       ],

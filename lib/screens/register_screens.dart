@@ -34,17 +34,7 @@ class _RegisterScreensState extends State<RegisterScreens> {
       showDialog(
           context: context,
           builder: (context) {
-            return AlertDialog(
-              title: Text("Something is wrong.Try Again"),
-              actions: [
-                RaisedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("OK"),
-                )
-              ],
-            );
+            return Center(child: CircularProgressIndicator());
           });
     }
   }

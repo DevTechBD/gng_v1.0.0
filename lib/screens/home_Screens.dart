@@ -1,5 +1,5 @@
 import 'package:carousel_pro/carousel_pro.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -7,14 +7,20 @@ import 'package:gngappv1/state/cart_state.dart';
 import 'package:gngappv1/state/product_state.dart';
 import 'package:gngappv1/widgets/add_drower.dart';
 import 'package:gngappv1/widgets/singleProduct.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import 'package:provider/provider.dart';
 
 import 'all_products_screen.dart';
+import 'campaign_screen.dart';
 import 'cart_screens.dart';
+import 'category_screen.dart';
 
 class HomeScreens extends StatefulWidget {
   static const routeName = '/home-screens';
+
+
+
 
   @override
   _HomeScreensState createState() => _HomeScreensState();
@@ -35,6 +41,13 @@ class _HomeScreensState extends State<HomeScreens> {
     _init = false;
     super.didChangeDependencies();
   }
+
+
+  PersistentTabController _controller = PersistentTabController(initialIndex: 0);
+  // _controller = PersistentTabController(initialIndex: 0);
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -87,14 +100,53 @@ class _HomeScreensState extends State<HomeScreens> {
             ),
           ],
         ),
-        bottomNavigationBar: CurvedNavigationBar(
-            backgroundColor: Colors.redAccent,
-          items: <Widget>[
-            Icon(Icons.account_box_outlined, size: 30),
-            Icon(Icons.bookmark_border_outlined, size: 30),
-            Icon(Icons.design_services, size: 30),
-            Icon(Icons.shopping_cart, size: 30),
-            Icon(Icons.home_outlined, size: 30),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.white,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white.withOpacity(.60),
+          selectedFontSize: 14,
+          unselectedFontSize: 14,
+          onTap: (value) {
+
+          },
+          items: [
+            BottomNavigationBarItem(
+                title: Text("Account"),
+                icon: RaisedButton(
+                    color: Colors.white,
+                    elevation: 0.0,
+                  onPressed: (){},
+                  child: Icon(Icons.account_box_outlined)
+                ),
+            ),
+            BottomNavigationBarItem(
+              title: Text("Account"),
+              icon: RaisedButton(
+                  color: Colors.white,
+                  elevation: 0.0,
+                  onPressed: (){},
+                  child: Icon(Icons.account_box_outlined)
+              ),
+            ),
+            BottomNavigationBarItem(
+              title: Text("Account"),
+              icon: RaisedButton(
+                color: Colors.white,
+                  elevation: 0.0,
+                  onPressed: (){},
+                  child: Icon(Icons.account_box_outlined)
+              ),
+            ),
+            BottomNavigationBarItem(
+              title: Text("Account"),
+              icon: RaisedButton(
+                  color: Colors.white,
+                elevation: 0.0,
+                  onPressed: (){},
+                  child: Icon(Icons.account_box_outlined)
+              ),
+            ),
           ],
         ),
         drawer: AppDrower(),
@@ -146,13 +198,17 @@ class _HomeScreensState extends State<HomeScreens> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: Container(
-                          color: Colors.red.withOpacity(0.2),
+                          color: Colors.red.withOpacity(0.5),
                           
-                          child: IconButton(
-                            onPressed: (){},
-                            icon: Icon(Icons.rate_review_outlined),
-
-                          ),
+                          child: 
+                            RaisedButton(
+                              onPressed: (){
+                                Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => CategoryScreen())
+                                );
+                              },
+                              child: Image.asset("images/categories.png")
+                            ),
                         ),
                       ),
                     ),
@@ -166,10 +222,14 @@ class _HomeScreensState extends State<HomeScreens> {
                           borderRadius: BorderRadius.circular(12),
                           child: Container(
                             color: Colors.blue.withOpacity(0.2),
-                            child: IconButton(
-                              onPressed: (){},
-                              icon: Icon(Icons.campaign),
-
+                            child: RaisedButton(
+                              onPressed: (){
+                                Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => CampaignScreen())
+                                );
+                              },
+                              child: Image.asset("images/review.png", height: 60, width: 100),
+                              autofocus: true,
                             ),
                           ),
                         ),
@@ -184,11 +244,11 @@ class _HomeScreensState extends State<HomeScreens> {
                           borderRadius: BorderRadius.circular(12),
                           child: Container(
                             color: Colors.amber.withOpacity(0.2),
-                            child: IconButton(
+                            child: RaisedButton(
                               onPressed: (){},
-                              icon: Icon(Icons.category),
-
-                            ),
+                              child: Image.asset("images/brands.png")
+                            ), 
+                              
                           ),
                         ),
                     ),
@@ -202,10 +262,9 @@ class _HomeScreensState extends State<HomeScreens> {
                           borderRadius: BorderRadius.circular(12),
                           child: Container(
                             color: Colors.greenAccent.withOpacity(0.2),
-                            child: IconButton(
+                            child: RaisedButton(
                               onPressed: (){},
-                              icon: Icon(Icons.branding_watermark_outlined),
-
+                              child: Image.asset("images/campaigns.png")
                             ),
                           ),
                         ),
@@ -219,16 +278,62 @@ class _HomeScreensState extends State<HomeScreens> {
               padding: padding,
               child: Text('All Products', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17))
             ),
-            Padding(
-              padding: padding,
-            ),
-
+        // Product Grid View //
+        Container(
+          padding: padding,
+          height: 1300,
+          child: GridView.count(
+            // childAspectRatio: 2400/2400,
+              physics: ScrollPhysics(),
+              crossAxisCount: 2,
+              children: List.generate(product.length, (i){
+                return SingleProduct(
+                  id: product[i].id,
+                  title: product[i].title,
+                  image: product[i].image,
+                  marcketPrice: product[i].marcketPrice,
+                  favorit: product[i].favorit,
+                );
+              }),
+          ),
+        ),
 
           ],
         ),
       );
 
 
+
+
+  }
+  List<Widget> _buildScreens() {
+      return [
+        HomeScreens(),
+        CartScreens(),
+        CampaignScreen(),
+      ];
+  }
+  List<PersistentBottomNavBarItem> _navBarsItems() {
+    return [
+      PersistentBottomNavBarItem(
+        icon: Icon(CupertinoIcons.home),
+        title: ("Home"),
+        activeColorPrimary: CupertinoColors.activeBlue,
+        inactiveColorPrimary: CupertinoColors.systemGrey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(CupertinoIcons.settings),
+        title: ("Settings"),
+        activeColorPrimary: CupertinoColors.activeBlue,
+        inactiveColorPrimary: CupertinoColors.systemGrey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(CupertinoIcons.settings),
+        title: ("Settings"),
+        activeColorPrimary: CupertinoColors.activeBlue,
+        inactiveColorPrimary: CupertinoColors.systemGrey,
+      ),
+    ];
   }
 
 }

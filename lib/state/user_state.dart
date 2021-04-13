@@ -46,6 +46,7 @@ class UserState with ChangeNotifier {
       return false;
     } catch (e) {
       print("e Registration");
+      print("kisu ekta hoise -_-");
       print(e);
       return false;
     }

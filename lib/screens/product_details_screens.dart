@@ -15,12 +15,13 @@ class ProductDetailsScreens extends StatelessWidget {
     final id = ModalRoute.of(context).settings.arguments;
     final product = Provider.of<ProductState>(context).singleProduct(id);
     final cart = Provider.of<CartState>(context).cartModel;
+    final prd = Provider.of<ProductState>(context).poducts;
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         iconTheme: IconThemeData(color: Colors.black),
-        title: Text("Product Details"),
+        // title: Text("Product Details"),
         actions: [
           FlatButton.icon(
             onPressed: () {
@@ -33,7 +34,7 @@ class ProductDetailsScreens extends StatelessWidget {
             label: Text(
               cart != null ? "${cart.cartproducts.length}" : '',
               style: TextStyle(
-                color: Colors.black,
+                color: Colors.red,
               ),
             ),
           ),
@@ -62,21 +63,24 @@ class ProductDetailsScreens extends StatelessWidget {
                   ],
                 ),
                 // ignore: deprecated_member_use
-                RaisedButton.icon(
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: RaisedButton.icon(
 
-                  color: Colors.red,
-                  onPressed: () {
-                    Provider.of<CartState>(context, listen: false)
-                        .addtoCart(id);
-                  },
-                  icon: Icon(
-                    Icons.shopping_cart,
-                    color: Colors.white,
-                  ),
-                  label: Text(
-                    "Add To Card",
-                    style: TextStyle(
+                    color: Color(0xFFc3232a),
+                    onPressed: () {
+                      Provider.of<CartState>(context, listen: false)
+                          .addtoCart(id);
+                    },
+                    icon: Icon(
+                      Icons.shopping_cart,
                       color: Colors.white,
+                    ),
+                    label: Text(
+                      "Add To Card",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -97,6 +101,22 @@ class ProductDetailsScreens extends StatelessWidget {
               child: Text("Related Products", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
             ),
             Divider(),
+            Container(
+              width: 100,
+              height: 190,
+              child: GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
+              ),
+                scrollDirection: Axis.horizontal,
+                itemCount: prd.length,
+                itemBuilder: (ctx, i) => SingleProduct(
+                  id: prd[i].id,
+                  title: prd[i].title,
+                  image: prd[i].image,
+                  marcketPrice: prd[i].marcketPrice,
+                ),
+              ),
+            ),
 
           ],
         ),
